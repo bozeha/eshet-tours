@@ -1,17 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import GlobalStyles from './comps/GlobalStyles';
+
+
+//// import allReducers , this hold all reducers , we dont need to wire "./reducers/index" becuse index in the defualt file 
+import { allReducers } from "./reducers";
+
+
+/// this will connect our state to our app
+import { Provider } from "react-redux";
+
+
+///// import create store , object of redux
+import thank from "redux-thunk";
+import { createStore, applyMiddleware, compose } from "redux";
+const composeEnchancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
+
+
+
+
+const store = createStore(
+  allReducers,
+  composeEnchancer(applyMiddleware(thank))
+);
+
+
+
+
+
+
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalStyles />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
